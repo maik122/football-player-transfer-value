@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+    <div class="header">
+        <h1>Admin Page</h1>
+    </div>
+</body>
+
+<div class="button-container">
+    <button class="button" style="width:60%;" type="button" onclick="editDatabase()">
+        <h1>Edit Player Information</h1>
+        <p> - add new entry to database</p>
+        <p> - edit database entry</p>
+        <p> - delete entry from database</p>
+    </button>
+    <br>
+    <button class="button" style="width:60%;" type="button" onclick="viewReports()">
+        <h1>View User Reports</h1>
+        <p> - view reports submitted by user from database about players</p>
+        <p> - remove user reports that have been addressed</p>
+    </button>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function editDatabase()
+{
+
+
+}
+</script>
+
+<script>
+function viewReports()
+{
+
+
+}
+</script>
+{% endblock %}

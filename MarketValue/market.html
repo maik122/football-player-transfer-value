@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Football Player Dashboard</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<h1>Football Player Dashboard</h1>
+<div class="dashboard-container">
+<form>
+    <label for="player">Select a player:</label>
+    <select id="player">
+    <option value="player1">Player 1</option>
+    <option value="player2">Player 2</option>
+    <option value="player3">Player 3</option>
+    </select>
+    <br><br>
+    <label for="game">Select a game:</label>
+    <select id="game">
+    <option value="game1">Game 1</option>
+    <option value="game2">Game 2</option>
+    <option value="game3">Game 3</option>
+    </select>
+    <br><br>
+    <input type="submit" value="Submit">
+</form>
+<div class="chart-container">
+    <canvas id="market-value-chart"></canvas>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>

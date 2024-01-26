@@ -1,0 +1,111 @@
+{% extends "base.html" %}   
+{% block title %}Compare Value{% endblock %}
+{% block content %}
+<body>
+	<div class="header">
+        <h1>Player Transfer Value Comparison</h1>
+        <form id="compareForm">
+            <label for="player1">Player 1:</label>
+            <select name="player1" id="player1" onchange="updateChart()">
+                {% for name in names %}
+                <option value="{{ name.0 }}">{{ name.0 }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="player2">Player 2:</label>
+            <select name="player2" id="player2" onchange="updateChart()">
+                {% for name in names %}
+                <option value="{{ name.0 }}">{{ name.0 }}</option>
+                {% endfor %}
+            </select>
+
+            
+            <button id="submitButton" title="Draw comparison chart">Compare Selected Players</button>
+        
+        </form>
+    </div>
+    <div class="chart-container">
+        <div id="curve_chart" style="height:500px; width:900px; "></div>
+    </div>
+    
+
+</body>
+
+<div class="content">
+    <div class="table-container">
+        <table id="playerTable" >
+            <thead>
+                <tr>
+                    <!--These are the headers for the main page table-->
+                    <th>Player Name</th>
+                    <th>Initial Value</th>
+                    <th>Value Week 1</th>
+                    <th>Value Week 2</th>
+                    <th>Value Week 3</th>
+                    <th>Value Week 4</th>
+                    <th>Value Week 5</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for value in transferValues %}
+                <tr>
+                    <td>{{ value.0 }}</td>
+                    <td>{{ value.1 }}</td>
+                    <td>{{ value.2 }}</td>
+                    <td>{{ value.3 }}</td>
+                    <td>{{ value.4 }}</td>
+                    <td>{{ value.5 }}</td>
+                    <td>{{ value.6 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    const rowNumber = 3;
+    const rowNumber2 = 4;
+    function drawChart() {
+        var selectedName1 = document.querySelector(`#playerTable tbody tr:nth-child(${selectedRow1}) td:nth-child(1)`).textContent;
+        var selectedName2 = document.querySelector(`#playerTable tbody tr:nth-child(${selectedRow2}) td:nth-child(1)`).textContent;
+
+        var data = google.visualization.arrayToDataTable([
+            ['Week', selectedName1, selectedName2],
+            ['Base',  parseInt(document.querySelector(`#playerTable tbody tr:nth-child(${selectedRow1}) td:nth-child(2)`).textContent), 
+                    parseInt(document.querySelector(`#playerTable tbody tr:nth-child(${selectedRow2}) td:nth-child(2)`).textContent)],
+            ['W1',  parseInt(document.querySelector(`#playerTable tbody tr:nth-child(${selectedRow1}) td:nth-child(3)`).textContent), 
+                    parseInt(document.querySelector(`#playerTable tbody tr:nth-child(${selectedRow2}) td:nth-child(3)`).textContent)],
+            ['W2',  parseInt(document.querySelector(`#playerTable tbody tr:nth-child(${selectedRow1}) td:nth-child(4)`).textContent),
+                    parseInt(document.querySelector(`#playerTable tbody tr:nth-child(${selectedRow2}) td:nth-child(4)`).textContent)],
+            ['W3',  parseInt(document.querySelector(`#playerTable tbody tr:nth-child(${selectedRow1}) td:nth-child(5)`).textContent), 
+                    parseInt(document.querySelector(`#playerTable tbody tr:nth-child(${selectedRow2}) td:nth-child(5)`).textContent)],
+            ['W4',  parseInt(document.querySelector(`#playerTable tbody tr:nth-child(${selectedRow1}) td:nth-child(6)`).textContent), 
+                    parseInt(document.querySelector(`#playerTable tbody tr:nth-child(${selectedRow2}) td:nth-child(6)`).textContent)],
+            ['W5',  parseInt(document.querySelector(`#playerTable tbody tr:nth-child(${selectedRow1}) td:nth-child(7)`).textContent), 
+                    parseInt(document.querySelector(`#playerTable tbody tr:nth-child(${selectedRow2}) td:nth-child(7)`).textContent)]
+        ]);
+
+        var options = {
+            title: 'Player Transfer Value',
+            curveType: 'function',
+            legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+    }
+</script>
+
+
+{% endblock %}

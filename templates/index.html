@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block title %}Main Table{% endblock %}
+{% block content %}
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" />
+
+	<div class="header">
+		<h1>Player information Table</h1>
+		<input type="text" id="searchInput" onkeyup="searchPlayer()" placeholder="Search using player name..">
+	</div>
+
+<body>
+<div class="content">
+	<div class="dropdown">
+		<button onclick="languageDropdown()" class="dropbtn">
+			<i class="fa fa-globe"></i>
+		</button>
+		<div id="languageDropdown" class="dropdown-content">
+			<a href="#">English</a>
+			<br>
+			<a href="#">العربية</a>
+		</div>
+	</div>
+	<div class="font-size-buttons">
+		<!--This is the font size buttons-->
+		<h4>Change font size:
+			<button id="increaseFontSize" title="Increase font size">+</button>
+			<button id="decreaseFontSize" title="Decrease font size">-</button>
+			<button id="reset" title="Reset font size">Reset</button>
+		</h4>
+	</div>
+
+	<div class="table-container">
+		<table id="playerTable">
+			<thead>
+				<tr>
+					<!--These are the headers for the main page table-->
+					<th>Player Name</th>
+					<th>Current Club</th>
+					<th>Player Salary p/w</th>
+					<th>Contract Length</th>
+					<th>Games Played</th>
+					<th>Games Won</th>
+					<th>Transfer Value</th>
+					<th>G1</th>
+					<th>G2</th>
+					<th>G3</th>
+					<th>G4</th>
+					<th>G5</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for player in players %}
+				<tr>
+					<td>{{ player.0 }}</td>
+					<td>{{ player.1 }}</td>
+					<td>{{ player.2 }}</td>
+					<td>{{ player.3 }}</td>
+					<td>{{ player.4 }}</td>
+					<td>{{ player.5 }}</td>
+					<td>{{ player.6 }}</td>
+					<td>{{ player.7 }}</td>
+					<td>{{ player.8 }}</td>
+					<td>{{ player.9 }}</td>
+					<td>{{ player.10 }}</td>
+					<td>{{ player.11 }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+</div>
+</body>
+
+{% endblock %}
+
+
+
+{% block scripts %}
+<!--This is the javascript code for the language dropdown-->
+<script>
+	function languageDropdown() {
+		document.getElementById("languageDropdown").classList.toggle("show");
+	}
+	window.onclick = function (event) {
+		if (!event.target.matches('.dropbtn')) {
+			var dropdowns = document.getElementsByClassName("dropdown-content");
+			var i;
+			for (i = 0; i < dropdowns.length; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains('show')) {
+					openDropdown.classList.remove('show');
+				}
+			}
+		}
+	}
+</script>
+<script>
+	//declare variables and assign values with their id
+	//content is the body of the page and the font size is 16px by default
+	const increaseFontButton = document.getElementById('increaseFontSize');
+	const decreaseFontButton = document.getElementById('decreaseFontSize');
+	const content = document.body;
+	const resetButton = document.getElementById('reset');
+	let fontSize = 16;
+
+	//functions to increase, decrease and reset the font size
+	function increaseFontSize() {
+		fontSize += 2;
+		content.style.fontSize = `${fontSize}px`;
+	}
+
+	function decreaseFontSize() {
+		fontSize -= 2;
+		content.style.fontSize = `${fontSize}px`;
+	}
+
+	function resetFontSize() {
+		let fontSize = 16;
+		content.style.fontSize = `${fontSize}px`;
+	}
+
+	//event listeners for the buttons
+	increaseFontButton.addEventListener('click', increaseFontSize);
+	decreaseFontButton.addEventListener('click', decreaseFontSize);
+	reset.addEventListener('click', resetFontSize);
+</script>
+
+<script>
+	//This is the javascript code for the search bar on the main page
+	function searchPlayer() {
+		// Declare variables
+		var input, filter, table, tr, td, i, txtValue;
+		// Get the search input element by its ID
+		searchBar = document.getElementById('searchInput');
+
+		// Convert the search text to uppercase for case-insensitive search
+		searchText = searchBar.value.toUpperCase();
+
+		// Get the player table element by its ID
+		playerTable = document.getElementById("playerTable");
+
+		// Get all the table rows from the player table
+		tableRows = playerTable.getElementsByTagName('tr');
+
+		// Loop through all table rows and hide those who don't match the search query
+		for (i = 0; i < tableRows.length; i++) {
+			playerNameCell = tableRows[i].getElementsByTagName("td")[0];
+			if (playerNameCell) {
+				playerName = playerNameCell.textContent || playerNameCell.innerText;
+				if (playerName.toUpperCase().indexOf(searchText) > -1) {
+					tableRows[i].style.display = "";
+				} else {
+					tableRows[i].style.display = "none";
+				}
+			}
+		}
+	}
+</script>
+{% endblock%}
